@@ -1,10 +1,30 @@
 console.log("taylor swift");
 
 // When the user clicks the search button
-function handleSearch() {
+var findCityBtn = $(".findBtn");
+console.log(findCityBtn);
+findCityBtn.click(function() {
+    const cityInput = $(this).prev("input").val();
+    console.log(cityInput);
+    console.log("Shawn Mendez");
+    handleSearch();
+})
 
+// findCityBtn.on("click", function (event) {
+//     var clickedButton = $(this);
+//     // var hourButtonClicked = $(clickedButton).siblings("div").data("time");
+//     const eventInput = $(clickedButton).prev("input").val();
+//     // localStorage.setItem("scheduled-hour-" + hourButtonClicked, eventInput);
+//     console.log(eventInput);
+//     console.log(clickedButton);
+//     handleSearch();
+// });
+function handleSearch() {
+    console.log("Britney Spears")
+    console.log(eventInput);
     // Then GET the user input VALUE they entered
-    makeWeatherRequest( search );
+    makeWeatherRequest( eventInput );
+
 
 };
 
@@ -24,7 +44,7 @@ function makeWeatherRequest( search ){
 
         // NEXT call `makeOneCallRequest` and pass in the lat and lng
         // create new variables for lat and lng if you need to
-        
+
     });
     
 };

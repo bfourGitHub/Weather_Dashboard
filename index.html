@@ -29,9 +29,9 @@
         <!-- Form and button for the search input -->
         <div>
             <div>
-                <input class="col-md-4 col-sm-8 col-8" type="text" placeholder="  Find a City" style="height: 3rem; text-align-last: justify;">
+                <input class="col-md-4 col-sm-8 col-8" id="locationSearched" type="text" placeholder="  Find a City" style="height: 3rem; text-align-last: justify;">
 
-                <button type="submit" class="btn btn-primary col-md-1 col-sm-3 col-3"
+                <button type="submit" class="btn findBtn btn-primary col-md-1 col-sm-3 col-3"
                     style="height: 3rem;">Find</button>
             </div>
         </div>
@@ -52,7 +52,7 @@
     <!-- Card for main content area -->
     <div style="text-align: -webkit-center;">
         <div class="card col-lg-10 col-md-11 col-sm-11 col-11" style="min-width: 18rem;">
-            <div class="card-body">
+            <div class="cardBodyCurrent">
                 <h4 class="card-title">City Name (Date)</h4>
                 <br>
                 <p class="card-text">Temperature: 50 F</p>
@@ -127,7 +127,7 @@
         </div>
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="script.js"></script>
 </body>
 
