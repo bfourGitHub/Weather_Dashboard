@@ -1,14 +1,19 @@
 console.log("taylor swift");
+const apiKEY = "ad269f335fe283efea967260b3287c51";
 
 // When the user clicks the search button
-var findCityBtn = $(".findBtn");
+const findCityBtn = $(".findBtn");
+
 console.log(findCityBtn);
+
 findCityBtn.click(function() {
-    const cityInput = $(this).prev("input").val();
+    var cityInput = $(this).prev("input").val();
     console.log(cityInput);
-    console.log("Shawn Mendez");
+    // localStorage.setItem("scheduled-hour-" + hourButtonClicked, eventInput);
     handleSearch();
-})
+});
+const cityNameSearched = $(".findBtn").prev("input").val();
+console.log(cityNameSearched);
 
 // findCityBtn.on("click", function (event) {
 //     var clickedButton = $(this);
@@ -21,44 +26,55 @@ findCityBtn.click(function() {
 // });
 function handleSearch() {
     console.log("Britney Spears")
-    console.log(eventInput);
     // Then GET the user input VALUE they entered
-    makeWeatherRequest( eventInput );
-
-
+    makeWeatherRequest();
 };
 
 
-function makeWeatherRequest( search ){
+function makeWeatherRequest( city ){
 
     // NEXT, we need to build the url for the first api request
+    const cityNameAPIReq = `https://api.openweathermap.org/data/2.5/weather?q=boston&appid=${apiKEY}`;
+    
     //    replace the users input with the location they wish to search for
     
     // Next, make the request to the URL with jQuery ajax
     
-    $.ajax( queryUrl).then(function(response) {
+    $.ajax({
+        url: cityNameAPIReq,
+        method: "GET"
+    }).then(function(response) {
         
         // START rendering data to the html
         
         // THEN get the lat and lng out of the response object
+        var lat = response.coord.lat
+        var lon = response.coord.lon
+        console.log(lat, lon);
 
         // NEXT call `makeOneCallRequest` and pass in the lat and lng
         // create new variables for lat and lng if you need to
-
+        console.log(response);
     });
-    
+    makeOneCallRequest();
 };
 
-function makeOneCallRequest( lat, lng ) {
+function makeOneCallRequest() {
 
     // NEXT, we need to build the url for the first api request
+    const latLonAPIReq = `https://api.openweathermap.org/data/2.5/onecall?lat=42.3584&lon=-71.0598&appid=${apiKEY}`;
     //    replace the users input with the location they wish to search for
     
     // Next, make the request to the URL with jQuery ajax
-    $.ajax( queryUrl ).then( function(response) {
+    $.ajax({
+        url: latLonAPIReq,
+        method: "GET"
+    }).then( function(response) {
 
         // Finish rendering data to the html
+        console.log(response);
+        console.log(response.current.weather)
 
     });
-
+    
 }
