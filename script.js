@@ -60,14 +60,14 @@ function makeWeatherRequest( city ){
         var cityTemp = response.main.temp;
         var cityHum = response.main.humidity;
         var cityWindy = response.wind.speed;
-        // var cityUV = response
+        
         //clears out the element to be used
         $("#currentCityName").empty();
         $("#currentCityDate").empty();
         $("#currentCityTemp").empty();
         $("#currentCityHum").empty();
         $("#currentCityWind").empty();
-        // $("#currentCityUV").empty();
+        
 
         //Append api data to element
         $("#currentCityName").append(cityName, ", ", countryCode);
@@ -75,7 +75,12 @@ function makeWeatherRequest( city ){
         $("#currentCityTemp").append(cityTemp);
         $("#currentCityHum").append(cityHum);
         $("#currentCityWind").append(cityWindy);
-        // $("#currentCityUV").append();
+    
+        //Add a list element to contain previous searches
+        var newSearchedCity = document.createElement(`li`);
+        newSearchedCity.appendChild(document.createTextNode(cityName));
+        newSearchedCity.classList.add("list-group-item");
+        document.querySelector("#searchedCityCard").appendChild(newSearchedCity);
 
         
         
@@ -108,6 +113,12 @@ function makeOneCallRequest() {
     }).then( function(response) {
 
         // Finish rendering data to the html
+
+        var cityUV = response.current.uvi;
+        $("#currentCityUV").empty();
+        $("#currentCityUV").append(cityUV);
+
+
         console.log(response);
         console.log(response.current.weather)
 
