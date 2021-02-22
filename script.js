@@ -3,6 +3,7 @@ const apiKEY = "ad269f335fe283efea967260b3287c51";
 const findCityBtn = $(".findBtn");
 const time = moment();
 const currentDate = time.format("MMM Do");
+const forecastedDate = time.format("dddd");
 console.log(currentDate);
 
 //When page loads the last searched city should append to the appropriate elements
@@ -10,80 +11,62 @@ console.log(currentDate);
 //When the page loads the list of previously searched cities appears in a list
 
 // When the user clicks the search button
-findCityBtn.click(function() {
+findCityBtn.click(function () {
+
     var cityInput = $(this).prev("input").val();
-    // var i = 0;
-    // for (i = 0; i < localStorage.length; i++) {
-    //     console.log(cityInput);
-    //     var cityKeyNum = "city-" + i;
-    // };
     localStorage.setItem("city", cityInput);
-    
+
     // handleSearch();
     makeWeatherRequest();
 });
 
-// function handleSearch() {
-//     console.log("Britney Spears")
-//     // Then GET the user input VALUE they entered
-//     localStorage.getItem("city");
-//     console.log(localStorage.getItem("city"));
-//     makeWeatherRequest();
-// };
 
+function makeWeatherRequest(city) {
 
-function makeWeatherRequest( city ){
-    
-    // var i = 0;
-    // for (i = 0; i < localStorage.length; i++) {
-        
-    //     var cityKeyNum = "city-" + i;
-    // }
     var cityNameSearched = localStorage.getItem("city");
     console.log(cityNameSearched);
-    console.log("Shawn Mendez");
+    // console.log("Shawn Mendez");
+
     // NEXT, we need to build the url for the first api request
     const cityNameAPIReq = `https://api.openweathermap.org/data/2.5/weather?q=${cityNameSearched}&units=imperial&appid=${apiKEY}`;
-    
+
     //    replace the users input with the location they wish to search for
-    
+
     // Next, make the request to the URL with jQuery ajax
-    
+
     $.ajax({
         url: cityNameAPIReq,
         method: "GET"
-    }).then(function(response) {
-        
+    }).then(function (response) {
+
         // START rendering data to the html
         var cityName = response.name;
         var countryCode = response.sys.country;
         var cityTemp = response.main.temp;
         var cityHum = response.main.humidity;
         var cityWindy = response.wind.speed;
-        
+
         //clears out the element to be used
         $("#currentCityName").empty();
         $("#currentCityDate").empty();
         $("#currentCityTemp").empty();
         $("#currentCityHum").empty();
         $("#currentCityWind").empty();
-        
+
 
         //Append api data to element
         $("#currentCityName").append(cityName, ", ", countryCode);
-        $("#currentCityDate").append(currentDate);
+        $("#currentCityDate").append(forecastedDate, ",", " ", currentDate);
         $("#currentCityTemp").append(cityTemp);
         $("#currentCityHum").append(cityHum);
         $("#currentCityWind").append(cityWindy);
-    
+
         //Add a list element to contain previous searches
         var newSearchedCity = document.createElement(`li`);
         newSearchedCity.appendChild(document.createTextNode(cityName));
         newSearchedCity.classList.add("list-group-item");
         document.querySelector("#searchedCityCard").appendChild(newSearchedCity);
 
-        
-        
         // THEN get the lat and lng out of the response object
         var lat = response.coord.lat;
         var lon = response.coord.lon;
@@ -101,19 +84,35 @@ function makeWeatherRequest( city ){
 function makeOneCallRequest() {
     var lat = localStorage.getItem("lat");
     var lon = localStorage.getItem("lon");
-    console.log(lat,lon);
-    // NEXT, we need to build the url for the first api request
+    console.log(lat, lon);
+
+    // NEXT, build the url for the second api request
     const latLonAPIReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKEY}`;
-    //    replace the users input with the location they wish to search for
     
+
     // Next, make the request to the URL with jQuery ajax
     $.ajax({
         url: latLonAPIReq,
         method: "GET"
-    }).then( function(response) {
+    }).then(function (response) {
 
         // Finish rendering data to the html
 
+        //Render Icon to Current weather card
+        var currentCityIcon = response.current.weather[0].icon;
+        var currentIconURL = `http://openweathermap.org/img/wn/${currentCityIcon}@2x.png`;
+        var currentIconEl = $("#currentCityIcon");
+        currentIconEl.attr("src", currentIconURL)
+        
+        $("#currentCityIcon").empty()
+        $("#currentCityIcon").append(currentIconEl)
+
+        console.log(currentCityIcon);
+
+
+
+
+        //Render UV data to Current Weather Card
         var cityUV = response.current.uvi;
         $("#currentCityUV").empty();
         $("#currentCityUV").append(cityUV);
@@ -123,5 +122,5 @@ function makeOneCallRequest() {
         console.log(response.current.weather)
 
     });
-    
+
 }

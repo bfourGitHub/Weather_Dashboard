@@ -39,11 +39,8 @@
         <!-- List group for the sidebar cities -->
         <div>
             <ul class="list-group col-lg-10 col-11" id="searchedCityCard" style="display: inline-flex;">
-                <li class="list-group-item" style="display: none;">placeholder text</li>
-                <li class="list-group-item" style="display: none;">placeholder text</li>
-                <li class="list-group-item" style="display: none;">placeholder text</li>
-                <li class="list-group-item" style="display: none;">placeholder text</li>
-                <li class="list-group-item" style="display: none;">placeholder text</li>
+                <!-- <li class="list-group-item" style="display: none;">placeholder text</li> -->
+                
             </ul>
         </div>
     </div>
@@ -56,6 +53,7 @@
                 <h4 class="card-title" id="currentCityName">City Name</h4>
                 <h5 class="card-text" id="currentCityDate">Date</h5>
                 <br>
+                <img id="currentCityIcon" src="" alt="">
                 <p class="card-text" >Temperature: <span id="currentCityTemp">50</span> F</p>
                 <p class="card-text" >Humidity: <span id="currentCityHum">50</span> %</p>
                 <p class="card-text">Wind Speed: <span id="currentCityWind">5.00</span> MPH</p>
@@ -74,11 +72,11 @@
 
         <div class="card col-md-3 col-sm-11 col-lg-2 col-11" style="margin-bottom: 1rem;">
             <div class="card-body">
-                <h5 class="card-title">(Date)</h5>
+                <h5 class="card-title" id="forecastDay1" >(Date)</h5>
                 <br>
                 <img src="" alt="">
-                <p class="card-text">Temp: 50 F</p>
-                <p class="card-text">Humidity: 50%</p>
+                <p class="card-text">Temp: <span id="forecastTemp1">50</span> F</p>
+                <p class="card-text">Humidity: <span id="forecastTemp1">50</span> %</p>
 
             </div>
         </div>
