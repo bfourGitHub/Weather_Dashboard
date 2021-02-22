@@ -88,7 +88,7 @@ function makeOneCallRequest() {
 
     // NEXT, build the url for the second api request
     const latLonAPIReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKEY}`;
-    
+
 
     // Next, make the request to the URL with jQuery ajax
     $.ajax({
@@ -97,14 +97,13 @@ function makeOneCallRequest() {
     }).then(function (response) {
 
         // Finish rendering data to the html
-
         //Render Icon to Current weather card
         var currentCityIcon = response.current.weather[0].icon;
         var currentIconURL = `http://openweathermap.org/img/wn/${currentCityIcon}@2x.png`;
         var currentIconEl = $("#currentCityIcon");
         currentIconEl.attr("src", currentIconURL);
         $("#currentCityIcon").empty();
-        $("#currentCityIcon").append(currentIconEl); 
+        $("#currentCityIcon").append(currentIconEl);
 
         //Render UV data to Current Weather Card
         var cityUV = response.current.uvi;
@@ -113,34 +112,36 @@ function makeOneCallRequest() {
 
         //Render Corresponding info to forecast days
         //Define needed Variables
-        var formattedForecastDate = time.add(1, "days").format("dddd");
-        var dailyWeatherIcon = response.daily[1].weather[0].icon
-        var forecastIconURL = `http://openweathermap.org/img/wn/${dailyWeatherIcon}.png`;
-        var forecastIconEl = $("#forecastIcon1");
-        forecastIconEl.attr("src", forecastIconURL)
-        var forecastTemp = response.daily[1].temp.day;
-        var forecastHum = response.daily[1].humidity;
+        //Use a for loop to cyce thru the array of forecasted days
 
-        //Clear out corresponding elements
-        $("#forecastDay1").empty();
-        $("#forecastIcon1").empty();
-        $("#forecastTemp1").empty();
-        $("#forecastHum1").empty();
+        for (var i = 1; i < 6; i++) {
 
-        //Append corresponding info to forecast weather cards
-        $("#forecastDay1").append(formattedForecastDate);
-        $("#forecastIcon1").append(forecastIconEl);
-        $("#forecastTemp1").append(forecastTemp);
-        $("#forecastHum1").append(forecastHum);
+            var formattedForecastDate = moment().add(i, "days").format("dddd");
+            var dailyWeatherIcon = response.daily[i].weather[0].icon
+            var forecastIconURL = `http://openweathermap.org/img/wn/${dailyWeatherIcon}.png`;
+            var forecastIconEl = $(`#forecastIcon${i}`);
+            forecastIconEl.attr("src", forecastIconURL)
+            var forecastTemp = response.daily[i].temp.day;
+            var forecastHum = response.daily[i].humidity;
 
-       
-        console.log(formattedForecastDate);
+            console.log(formattedForecastDate);
 
-        $("#forecastDay1")
+            //Clear out corresponding elements
+            $(`#forecastDay${i}`).empty();
+            $(`#forecastIcon${i}`).empty();
+            $(`#forecastTemp${i}`).empty();
+            $(`#forecastHum${i}`).empty();
 
+            //Append corresponding info to forecast weather cards
+            $(`#forecastDay${i}`).append(formattedForecastDate);
+            $(`#forecastIcon${i}`).append(forecastIconEl);
+            $(`#forecastTemp${i}`).append(forecastTemp);
+            $(`#forecastHum${i}`).append(forecastHum);
+
+        }
 
         console.log(response);
-        console.log(response.current.weather)
+
 
     });
 
