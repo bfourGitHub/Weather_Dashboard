@@ -1,6 +1,7 @@
 console.log("taylor swift");
 const apiKEY = "ad269f335fe283efea967260b3287c51";
 const findCityBtn = $(".findBtn");
+const prevSearchedCityBtn = $(".searchAgainBtn");
 const time = moment();
 const currentDate = time.format("MMM Do");
 const forecastedDate = time.format("dddd");
@@ -11,16 +12,40 @@ console.log(currentDate);
 //When the page loads the list of previously searched cities appears in a list
 init ();
 
-// When the user clicks the search button
+// When the user clicks the search button or previously searched city 
 findCityBtn.click(function () {
 
     var cityInput = $(this).prev("input").val();    
 
     localStorage.setItem(`city`, cityInput);
+
+    addPrevSearchListItem();
     
     makeWeatherRequest();
 
 });
+
+
+$("#searchedCityCard").on("click", ".searchAgainBtn", function(){
+
+    console.log("Kelly Clarkson");
+    console.log(this.innerHTML);
+
+    localStorage.setItem(`city`, this.innerHTML)
+    makeWeatherRequest();
+
+});
+
+//Fucntion to add a list element to contain previous searches
+function addPrevSearchListItem () {
+
+    var newSearchedCity = document.createElement(`button`);
+    var cityPrevSearch = localStorage.getItem("city");
+    newSearchedCity.appendChild(document.createTextNode(cityPrevSearch));
+    newSearchedCity.classList.add("list-group-item", "searchAgainBtn");
+    document.querySelector("#searchedCityCard").appendChild(newSearchedCity);
+    
+};
 
 // Function to load the last searched city when the page reloads, 
 // If there is no saved city the Default is Covent Garden, UK
@@ -30,8 +55,10 @@ function init () {
     var lastCitySearched = localStorage.getItem("city");
     if (lastCitySearched == null) {
         localStorage.setItem("city", "Covent Garden")
+        addPrevSearchListItem();
         makeWeatherRequest();
     } else {
+        addPrevSearchListItem();
         makeWeatherRequest();
     };
 
@@ -79,10 +106,11 @@ function makeWeatherRequest(city) {
         $("#currentCityWind").append(cityWindy);
 
         //Add a list element to contain previous searches
-        var newSearchedCity = document.createElement(`li`);
-        newSearchedCity.appendChild(document.createTextNode(cityName));
-        newSearchedCity.classList.add("list-group-item");
-        document.querySelector("#searchedCityCard").appendChild(newSearchedCity);
+        // var newSearchedCity = document.createElement(`button`);
+        // newSearchedCity.appendChild(document.createTextNode(cityName));
+        // newSearchedCity.classList.add("list-group-item", "searchAgainBtn");
+        // document.querySelector("#searchedCityCard").appendChild(newSearchedCity);
+        
 
         // THEN get the lat and lng out of the response object
         var lat = response.coord.lat;
@@ -170,7 +198,6 @@ function makeOneCallRequest() {
         }
 
         console.log(response);
-
 
     });
 
