@@ -9,16 +9,33 @@ console.log(currentDate);
 //When page loads the last searched city should append to the appropriate elements
 
 //When the page loads the list of previously searched cities appears in a list
+init ();
 
 // When the user clicks the search button
 findCityBtn.click(function () {
 
-    var cityInput = $(this).prev("input").val();
-    localStorage.setItem("city", cityInput);
+    var cityInput = $(this).prev("input").val();    
 
-    // handleSearch();
+    localStorage.setItem(`city`, cityInput);
+    
     makeWeatherRequest();
+
 });
+
+// Function to load the last searched city when the page reloads, 
+// If there is no saved city the Default is Covent Garden, UK
+function init () {
+
+    console.log("Norah Jones");
+    var lastCitySearched = localStorage.getItem("city");
+    if (lastCitySearched == null) {
+        localStorage.setItem("city", "Covent Garden")
+        makeWeatherRequest();
+    } else {
+        makeWeatherRequest();
+    };
+
+};
 
 
 function makeWeatherRequest(city) {
@@ -109,6 +126,18 @@ function makeOneCallRequest() {
         var cityUV = response.current.uvi;
         $("#currentCityUV").empty();
         $("#currentCityUV").append(cityUV);
+
+        //Provide a Color code for UV conditions
+        if (cityUV < 2) {
+            $("#uvIndexColor").attr("style", "background-color: rgba(0, 128, 0, 0.664);");
+        } else if ( cityUV > 2 && cityUV <6) {
+            console.log("Shania Twain");
+            $("#uvIndexColor").attr("style", "background-color: rgba(255, 255, 0, 0.664);");
+        } else if (cityUV >= 6){
+            $("#uvIndexColor").attr("style", "background-color: rgba(255, 0, 0, 0.664);");
+        };
+
+
 
         //Render Corresponding info to forecast days
         //Define needed Variables
