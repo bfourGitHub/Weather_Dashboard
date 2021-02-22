@@ -102,20 +102,41 @@ function makeOneCallRequest() {
         var currentCityIcon = response.current.weather[0].icon;
         var currentIconURL = `http://openweathermap.org/img/wn/${currentCityIcon}@2x.png`;
         var currentIconEl = $("#currentCityIcon");
-        currentIconEl.attr("src", currentIconURL)
-        
-        $("#currentCityIcon").empty()
-        $("#currentCityIcon").append(currentIconEl)
-
-        console.log(currentCityIcon);
-
-
-
+        currentIconEl.attr("src", currentIconURL);
+        $("#currentCityIcon").empty();
+        $("#currentCityIcon").append(currentIconEl); 
 
         //Render UV data to Current Weather Card
         var cityUV = response.current.uvi;
         $("#currentCityUV").empty();
         $("#currentCityUV").append(cityUV);
+
+        //Render Corresponding info to forecast days
+        //Define needed Variables
+        var formattedForecastDate = time.add(1, "days").format("dddd");
+        var dailyWeatherIcon = response.daily[1].weather[0].icon
+        var forecastIconURL = `http://openweathermap.org/img/wn/${dailyWeatherIcon}.png`;
+        var forecastIconEl = $("#forecastIcon1");
+        forecastIconEl.attr("src", forecastIconURL)
+        var forecastTemp = response.daily[1].temp.day;
+        var forecastHum = response.daily[1].humidity;
+
+        //Clear out corresponding elements
+        $("#forecastDay1").empty();
+        $("#forecastIcon1").empty();
+        $("#forecastTemp1").empty();
+        $("#forecastHum1").empty();
+
+        //Append corresponding info to forecast weather cards
+        $("#forecastDay1").append(formattedForecastDate);
+        $("#forecastIcon1").append(forecastIconEl);
+        $("#forecastTemp1").append(forecastTemp);
+        $("#forecastHum1").append(forecastHum);
+
+       
+        console.log(formattedForecastDate);
+
+        $("#forecastDay1")
 
 
         console.log(response);
