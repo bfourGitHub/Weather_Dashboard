@@ -148,8 +148,6 @@ function makeOneCallRequest(lat, lon) {
             $("#uvIndexColor").attr("style", "background-color: rgba(255, 0, 0, 0.664);");
         };
 
-
-
         //Render Corresponding info to forecast days
         //Define needed Variables
         //Use a for loop to cyce thru the array of forecasted days
