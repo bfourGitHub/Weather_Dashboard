@@ -1,4 +1,3 @@
-console.log("taylor swift");
 const apiKEY = "ad269f335fe283efea967260b3287c51";
 const findCityBtn = $(".findBtn");
 const prevSearchedCityBtn = $(".searchAgainBtn");
@@ -8,7 +7,6 @@ const forecastedDate = time.format("dddd");
 console.log(currentDate);
 
 //When page loads the last searched city should append to the appropriate elements
-
 //When the page loads the list of previously searched cities appears in a list
 init ();
 
@@ -28,15 +26,12 @@ findCityBtn.click(function () {
 
 $("#searchedCityCard").on("click", ".searchAgainBtn", function(){
 
-    console.log("Kelly Clarkson");
-    console.log(this.innerHTML);
-
     localStorage.setItem(`city`, this.innerHTML)
     makeWeatherRequest();
 
 });
 
-//Fucntion to add a list element to contain previous searches
+//Function to add a list element to contain previous searches
 function addPrevSearchListItem () {
 
     var newSearchedCity = document.createElement(`button`);
@@ -51,7 +46,6 @@ function addPrevSearchListItem () {
 // If there is no saved city the Default is Covent Garden, UK
 function init () {
 
-    console.log("Norah Jones");
     var lastCitySearched = localStorage.getItem("city");
     if (lastCitySearched == null) {
         localStorage.setItem("city", "Covent Garden")
@@ -65,16 +59,12 @@ function init () {
 };
 
 
-function makeWeatherRequest(city) {
+function makeWeatherRequest() {
 
     var cityNameSearched = localStorage.getItem("city");
-    console.log(cityNameSearched);
-    // console.log("Shawn Mendez");
 
     // NEXT, we need to build the url for the first api request
     const cityNameAPIReq = `https://api.openweathermap.org/data/2.5/weather?q=${cityNameSearched}&units=imperial&appid=${apiKEY}`;
-
-    //    replace the users input with the location they wish to search for
 
     // Next, make the request to the URL with jQuery ajax
 
@@ -105,30 +95,23 @@ function makeWeatherRequest(city) {
         $("#currentCityHum").append(cityHum);
         $("#currentCityWind").append(cityWindy);
 
-        //Add a list element to contain previous searches
-        // var newSearchedCity = document.createElement(`button`);
-        // newSearchedCity.appendChild(document.createTextNode(cityName));
-        // newSearchedCity.classList.add("list-group-item", "searchAgainBtn");
-        // document.querySelector("#searchedCityCard").appendChild(newSearchedCity);
-        
-
         // THEN get the lat and lng out of the response object
         var lat = response.coord.lat;
         var lon = response.coord.lon;
-        console.log(lat, lon);
+        
         localStorage.setItem("lat", lat);
         localStorage.setItem("lon", lon);
 
         // NEXT call `makeOneCallRequest` and pass in the lat and lng
         // create new variables for lat and lng if you need to
         console.log(response);
-        makeOneCallRequest();
+        makeOneCallRequest(lat, lon);
     });
 };
 
-function makeOneCallRequest() {
-    var lat = localStorage.getItem("lat");
-    var lon = localStorage.getItem("lon");
+function makeOneCallRequest(lat, lon) {
+    // var lat = localStorage.getItem("lat");
+    // var lon = localStorage.getItem("lon");
     console.log(lat, lon);
 
     // NEXT, build the url for the second api request
@@ -180,8 +163,6 @@ function makeOneCallRequest() {
             forecastIconEl.attr("src", forecastIconURL)
             var forecastTemp = response.daily[i].temp.day;
             var forecastHum = response.daily[i].humidity;
-
-            console.log(formattedForecastDate);
 
             //Clear out corresponding elements
             $(`#forecastDay${i}`).empty();
