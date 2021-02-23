@@ -8,23 +8,21 @@ console.log(currentDate);
 
 //When page loads the last searched city should append to the appropriate elements
 //When the page loads the list of previously searched cities appears in a list
-init ();
+init();
 
 // When the user clicks the search button or previously searched city 
 findCityBtn.click(function () {
 
-    var cityInput = $(this).prev("input").val();    
-
+    var cityInput = $(this).prev("input").val();
     localStorage.setItem(`city`, cityInput);
 
     addPrevSearchListItem();
-    
     makeWeatherRequest();
 
 });
 
 
-$("#searchedCityCard").on("click", ".searchAgainBtn", function(){
+$("#searchedCityCard").on("click", ".searchAgainBtn", function () {
 
     localStorage.setItem(`city`, this.innerHTML)
     makeWeatherRequest();
@@ -32,19 +30,19 @@ $("#searchedCityCard").on("click", ".searchAgainBtn", function(){
 });
 
 //Function to add a list element to contain previous searches
-function addPrevSearchListItem () {
+function addPrevSearchListItem() {
 
     var newSearchedCity = document.createElement(`button`);
     var cityPrevSearch = localStorage.getItem("city");
     newSearchedCity.appendChild(document.createTextNode(cityPrevSearch));
     newSearchedCity.classList.add("list-group-item", "searchAgainBtn");
     document.querySelector("#searchedCityCard").appendChild(newSearchedCity);
-    
+
 };
 
 // Function to load the last searched city when the page reloads, 
 // If there is no saved city the Default is Covent Garden, UK
-function init () {
+function init() {
 
     var lastCitySearched = localStorage.getItem("city");
     if (lastCitySearched == null) {
@@ -73,6 +71,7 @@ function makeWeatherRequest() {
         method: "GET"
     }).then(function (response) {
 
+
         // START rendering data to the html
         var cityName = response.name;
         var countryCode = response.sys.country;
@@ -98,13 +97,14 @@ function makeWeatherRequest() {
         // THEN get the lat and lng out of the response object
         var lat = response.coord.lat;
         var lon = response.coord.lon;
-        
+
         localStorage.setItem("lat", lat);
         localStorage.setItem("lon", lon);
 
         // NEXT call `makeOneCallRequest` and pass in the lat and lng
         // create new variables for lat and lng if you need to
         console.log(response);
+        
         makeOneCallRequest(lat, lon);
     });
 };
@@ -141,10 +141,10 @@ function makeOneCallRequest(lat, lon) {
         //Provide a Color code for UV conditions
         if (cityUV < 2) {
             $("#uvIndexColor").attr("style", "background-color: rgba(0, 128, 0, 0.664);");
-        } else if ( cityUV > 2 && cityUV <6) {
+        } else if (cityUV > 2 && cityUV < 6) {
             console.log("Shania Twain");
             $("#uvIndexColor").attr("style", "background-color: rgba(255, 255, 0, 0.664);");
-        } else if (cityUV >= 6){
+        } else if (cityUV >= 6) {
             $("#uvIndexColor").attr("style", "background-color: rgba(255, 0, 0, 0.664);");
         };
 
